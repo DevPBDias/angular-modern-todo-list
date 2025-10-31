@@ -1,2 +1,12 @@
-<app-header/>
-<router-outlet />
+<div class="relative w-full min-h-screen overflow-hidden">
+    <!-- Background Image para todas as páginas -->
+    <app-background-image />
+    
+    <!-- Header sobreposto -->
+    <app-header/>
+    
+    <!-- Conteúdo das páginas -->
+    <div class="relative z-10">
+        <router-outlet />
+    </div>
+</div>
