@@ -1,1 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
+@import 'tailwindcss';
+@import 'primeicons/primeicons.css';
+
+/* Fontes globais */
+* {
+  font-family: 'Poppins', sans-serif;
+}
+
+.font-handwritten {
+  font-family: 'Dancing Script', cursive;
+}
