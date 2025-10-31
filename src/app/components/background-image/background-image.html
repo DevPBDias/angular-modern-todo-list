@@ -1,0 +1,17 @@
+<!-- Imagem de fundo fixa para todas as páginas -->
+<div class="fixed inset-0 z-0 w-full h-full">
+    <picture class="absolute inset-0 w-full h-full">
+        <source 
+            media="(min-width: 1024px)" 
+            srcset="/images/landscape-cozy-studyroom.jpg" 
+            type="image/jpeg">
+        <img 
+            src="/images/cozy-room.jpg" 
+            alt="Cozy room background"
+            class="w-full h-full object-cover object-center"
+            loading="eager">
+    </picture>
+    
+    <!-- Overlay escuro para melhorar legibilidade -->
+    <div class="absolute inset-0 bg-linear-to-b from-black/50 via-black/40 to-black/60"></div>
+</div>
