@@ -5,7 +5,7 @@ import { TodoInput } from './components/todo-input/todo-input';
 import { TodoTaskItem } from './components/todo-task-item/todo-task-item';
 import { TodoStats } from './components/todo-stats/todo-stats';
 import { TodoEmptyState } from './components/todo-empty-state/todo-empty-state';
-import { TodoService } from './services/todo.service';
+import { TodoService } from '../../services/todo.service';
 
 @Component({
   selector: 'app-todo-list',

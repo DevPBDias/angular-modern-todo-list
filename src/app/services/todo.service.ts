@@ -1,6 +1,6 @@
 import { Injectable, inject, signal, computed, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { Task } from '../types/task.types';
+import { Task } from '../pages/todo-list/types/task.types';
 
 @Injectable({
   providedIn: 'root',
@@ -43,14 +43,14 @@ export class TodoService {
 
   toggleComplete(task: Task): void {
     this._tasks.update((tasks) =>
-      tasks.map((t) => (t.id === task.id ? { ...t, completed: !t.completed } : t))
+      tasks.map((t) => (t.id === task.id ? { ...t, completed: !t.completed } : t)),
     );
     this.saveTasks();
   }
 
   startEditing(task: Task): void {
     this._tasks.update((tasks) =>
-      tasks.map((t) => (t.id === task.id ? { ...t, editing: true } : { ...t, editing: false }))
+      tasks.map((t) => (t.id === task.id ? { ...t, editing: true } : { ...t, editing: false })),
     );
   }
 
@@ -62,14 +62,14 @@ export class TodoService {
     }
 
     this._tasks.update((tasks) =>
-      tasks.map((t) => (t.id === task.id ? { ...t, text: trimmed, editing: false } : t))
+      tasks.map((t) => (t.id === task.id ? { ...t, text: trimmed, editing: false } : t)),
     );
     this.saveTasks();
   }
 
   cancelEdit(task: Task): void {
     this._tasks.update((tasks) =>
-      tasks.map((t) => (t.id === task.id ? { ...t, editing: false } : t))
+      tasks.map((t) => (t.id === task.id ? { ...t, editing: false } : t)),
     );
   }
 
