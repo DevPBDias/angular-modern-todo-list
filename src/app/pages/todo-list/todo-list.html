@@ -1,0 +1,44 @@
+<section class="relative w-full min-h-screen flex items-center justify-center pt-32 pb-24 lg:pt-24">
+    <div class="relative z-10 w-full max-w-4xl px-4 md:px-6 lg:px-8 text-white flex flex-col gap-8">
+        <!-- Header -->
+        <div class="space-y-2 text-center">
+            <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
+                Suas tarefas de hoje
+            </h1>
+            <p class="text-sm md:text-base opacity-85">
+                Escreva suas tarefas para elas serem listadas
+            </p>
+            <div class="border-t-2 border-white/30 mt-8"></div>
+        </div>
+
+        <!-- Formulário para adicionar tarefa -->
+        <app-todo-input (taskAdded)="onTaskAdded($event)"></app-todo-input>
+
+        <!-- Lista de tarefas -->
+        <div class="space-y-3">
+            @if (tasks().length === 0) {
+                <app-todo-empty-state></app-todo-empty-state>
+            } @else {
+                @for (task of tasks(); track task.id) {
+                    <app-todo-task-item
+                        [task]="task"
+                        [editingText]="task.text"
+                        (toggleCompleteEvent)="onToggleComplete($event)"
+                        (editEvent)="onEditTask($event)"
+                        (saveEditEvent)="onSaveEdit($event)"
+                        (cancelEditEvent)="onCancelEdit($event)"
+                        (removeEvent)="onRemoveTask($event)">
+                    </app-todo-task-item>
+                }
+            }
+        </div>
+
+        <!-- Contador de tarefas -->
+        @if (tasks().length > 0) {
+            <app-todo-stats
+                [completedCount]="completedTasksCount()"
+                [totalCount]="totalTasksCount()">
+            </app-todo-stats>
+        }
+    </div>
+</section>

@@ -1,0 +1,16 @@
+<div class="flex flex-col sm:flex-row gap-3">
+    <input 
+        type="text" 
+        [(ngModel)]="newTaskText"
+        (keyup.enter)="onSubmit()"
+        [placeholder]="placeholder"
+        class="flex-1 px-4 py-3 bg-white/10 backdrop-blur-sm border-2 border-white/30 rounded-xl text-white placeholder-white/60 focus:outline-none focus:border-amber-400 focus:bg-white/15 transition-all duration-300">
+    <button 
+        type="button"
+        (click)="onSubmit()"
+        class="px-6 py-3 bg-amber-400 hover:bg-amber-500 text-blue-900 font-bold rounded-xl shadow-lg shadow-amber-400/50 hover:shadow-xl hover:shadow-amber-400/60 transition-all duration-300 transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2">
+        <i class="pi pi-plus text-xl"></i>
+        Adicionar
+    </button>
+</div>
+
