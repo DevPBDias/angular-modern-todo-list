@@ -10,10 +10,6 @@ export const navLinks: ILinks[] = [
   },
   {
     name: 'Todo-List',
-    path: '/',
-  },
-  {
-    name: 'Pomodoro',
-    path: '/pomodoro',
+    path: '/todo-list',
   },
 ];
