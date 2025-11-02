@@ -1,0 +1,23 @@
+@keyframes flashBorder {
+  0%,
+  100% {
+    border-color: transparent;
+    box-shadow: none;
+  }
+  25% {
+    border-color: #22c55e;
+    box-shadow: 0 0 15px #22c55e80;
+  }
+  50% {
+    border-color: #3b82f6;
+    box-shadow: 0 0 15px #3b82f680;
+  }
+  75% {
+    border-color: #f59e0b;
+    box-shadow: 0 0 15px #f59e0b80;
+  }
+}
+
+.animate-flash {
+  animation: flashBorder 2.5s ease-in-out;
+}

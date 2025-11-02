@@ -1,0 +1,20 @@
+<button
+  (click)="togglePomodoro()"
+  class="absolute top-4 right-4 lg:right-24 z-90 cursor-pointer border-2 hover:bg-blue-900 border-white text-white rounded-full shadow-lg px-3 py-2 hover:scale-105 transition-transform"
+  aria-label="Abrir Pomodoro"
+>
+  <i class="pi pi-clock"></i>
+</button>
+
+<div class="drag-boundary absolute inset-0 z-90 pointer-events-none">
+  @if (showPomodoro()) {
+    <div
+      class="drag-box absolute pointer-events-auto"
+      cdkDrag
+      cdkDragBoundary=".drag-boundary"
+      style="top: 100px; right: 100px;"
+    >
+    <app-pomodoro-timer></app-pomodoro-timer>
+    </div>
+  }
+</div>
