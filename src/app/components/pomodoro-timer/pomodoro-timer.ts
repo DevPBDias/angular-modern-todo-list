@@ -6,6 +6,7 @@ interface PomodoroState {
   mode: 'work' | 'break';
   isRunning: boolean;
   lastUpdated: number;
+  customTime?: number;
 }
 
 @Component({
@@ -35,6 +36,15 @@ export class PomodoroTimer implements OnInit, OnDestroy {
     if (this.isBrowser) {
       this.audio = new Audio('/audio/timer-end.mp3');
       this.restoreState();
+      const saved = localStorage.getItem('pomodoroState');
+
+      if (!saved) {
+        if (this.mode() === 'work') {
+          this.timeLeft.set(this.customTime() * 60);
+        } else {
+          this.timeLeft.set(5 * 60);
+        }
+      }
     }
   }
 
@@ -45,6 +55,7 @@ export class PomodoroTimer implements OnInit, OnDestroy {
       mode: this.mode(),
       isRunning: this.isRunning(),
       lastUpdated: Date.now(),
+      customTime: this.customTime(),
     };
     localStorage.setItem('pomodoroState', JSON.stringify(state));
   }
@@ -53,21 +64,29 @@ export class PomodoroTimer implements OnInit, OnDestroy {
     const saved = localStorage.getItem('pomodoroState');
     if (!saved) return;
 
-    const state: PomodoroState = JSON.parse(saved);
-    const elapsed = Math.floor((Date.now() - state.lastUpdated) / 1000);
+    try {
+      const state: PomodoroState = JSON.parse(saved);
+      if (typeof state.customTime === 'number') {
+        this.customTime.set(state.customTime);
+      }
 
-    let newTime = state.timeLeft - (state.isRunning ? elapsed : 0);
+      const elapsed = Math.floor((Date.now() - state.lastUpdated) / 1000);
+      let newTime = state.timeLeft - (state.isRunning ? elapsed : 0);
 
-    if (newTime <= 0) {
-      this.switchMode();
-      newTime = this.timeLeft();
+      if (newTime <= 0) {
+        newTime = 0;
+      }
+
+      this.mode.set(state.mode);
+      this.timeLeft.set(Math.max(0, newTime));
+
+      this.isRunning.set(false);
+      if (state.isRunning) {
+        this.startTimer();
+      }
+    } catch (e) {
+      console.warn('Failed to restore pomodoro state', e);
     }
-
-    this.timeLeft.set(newTime);
-    this.mode.set(state.mode);
-    this.isRunning.set(state.isRunning);
-
-    if (state.isRunning) this.startTimer();
   }
 
   get minutes(): string {
@@ -110,7 +129,8 @@ export class PomodoroTimer implements OnInit, OnDestroy {
 
   resetTimer(): void {
     this.pauseTimer();
-    this.timeLeft.set(this.customTime() * 60);
+    const newTime = this.mode() === 'work' ? this.customTime() * 60 : 5 * 60;
+    this.timeLeft.set(newTime);
     this.saveState();
   }
 
@@ -141,6 +161,23 @@ export class PomodoroTimer implements OnInit, OnDestroy {
     } catch {}
     this.flashEffect.set(true);
     setTimeout(() => this.flashEffect.set(false), 2500);
+  }
+
+  setCustomTime(value: number): void {
+    const v = Math.max(1, Math.floor(value));
+    this.customTime.set(v);
+    if (this.mode() === 'work' && !this.isRunning()) {
+      this.timeLeft.set(v * 60);
+    }
+    this.saveState();
+  }
+
+  incrementCustom(): void {
+    this.setCustomTime(this.customTime() + 1);
+  }
+
+  decrementCustom(): void {
+    this.setCustomTime(Math.max(1, this.customTime() - 1));
   }
 
   ngOnDestroy(): void {
